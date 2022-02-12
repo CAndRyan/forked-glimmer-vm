@@ -588,10 +588,18 @@ test('allow {{undefined}} to be passed as a param', function () {
   astEqual(ast, b.program([b.mustache(b.path('foo'), [b.undefined()])]));
 });
 
-test('Handlebars partial should error', function (assert) {
-  assert.throws(() => {
-    parse('{{> foo}}', { meta: { moduleName: 'test-module' } });
-  }, syntaxErrorFor('Handlebars partials are not supported', '{{> foo}}', 'test-module', 1, 0));
+// TODO: update all other partial tests...
+test('Handlebars partial should NOT error', function () {
+  let ast = parse('{{> foo}}', { meta: { moduleName: 'test-module' } });
+
+  astEqual(ast, b.program([b.partial(b.path('foo'), [])]));
+});
+
+// TODO: update all other partial tests...
+test('Handlebars partial should NOT error, context included', function () {
+  let ast = parse('{{> foo context}}', { meta: { moduleName: 'test-module' } });
+
+  astEqual(ast, b.program([b.partial(b.path('foo'), [b.path('context')])]));
 });
 
 test('Handlebars partial block should error', function (assert) {
