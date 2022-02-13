@@ -120,6 +120,43 @@ test('Handlebars block statement embedded in an attribute (quoted)', function ()
   );
 });
 
+// TODO update parser to accomodate nested block statements within concatenation of an attribute value
+test('Handlebars block statement embedded in an attribute (quoted), with deep nesting', function () {
+  let t =
+    '<div class="{{#if isTrue}}{{#unless isSpecial}}{{lastName}}{{/unless}}{{/if}} other-class">content</div>';
+  astEqual(
+    t,
+    b.program([
+      element(
+        'div',
+        [
+          'attrs',
+          [
+            'class',
+            b.concat([
+              b.block(
+                b.path('if'),
+                [b.path('isTrue')],
+                b.hash(),
+                b.blockItself([
+                  b.block(
+                    b.path('unless'),
+                    [b.path('isSpecial')],
+                    b.hash(),
+                    b.blockItself([b.mustache('lastName')])
+                  ),
+                ])
+              ),
+              b.text(' other-class'),
+            ]),
+          ],
+        ],
+        ['body', b.text('content')]
+      ),
+    ])
+  );
+});
+
 test('Handlebars embedded in an attribute (quoted)', function () {
   let t = 'some <div class="{{foo}}">content</div> done';
   astEqual(

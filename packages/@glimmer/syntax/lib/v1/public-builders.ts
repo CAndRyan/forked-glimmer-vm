@@ -131,8 +131,9 @@ function buildMustacheComment(value: string, loc?: SourceLocation): ASTv1.Mustac
   };
 }
 
+// TODO: consider a custom version of BlockStatement for embedded boolean helpers like unless or if so they can function within an element's attribute & be concatenated
 function buildConcat(
-  parts: (ASTv1.TextNode | ASTv1.MustacheStatement | ASTv1.BlockStatement)[],
+  parts: (ASTv1.TextNode | ASTv1.MustacheStatement)[], // | ASTv1.BlockStatement
   loc?: SourceLocation
 ): ASTv1.ConcatStatement {
   if (!isPresent(parts)) {
