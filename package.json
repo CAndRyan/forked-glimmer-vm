@@ -33,7 +33,7 @@
     "start": "ember serve --port=7357",
     "test": "ember test",
     "test:browserstack": "ember test --test-port=7774 --host 127.0.0.1 --config-file=testem-browserstack.js",
-    "test:dumb": "qunit dist/**/*-node-test.js --filter=\"Handlebars partial should NOT error\"",
+    "test:feature": "qunit dist/**/*-node-test.js --filter=\"Handlebars block statement embedded in an attribute (quoted)\"",
     "test:node": "qunit dist/**/*-node-test.js",
     "test:babel-plugins": "yarn workspace @glimmer/vm-babel-plugins test",
     "test:smoke": "SMOKE_TESTS=true ember test",

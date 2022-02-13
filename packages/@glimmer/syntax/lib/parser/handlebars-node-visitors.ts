@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Option, Recast } from '@glimmer/interfaces';
 import { TokenizerState } from 'simple-html-tokenizer';
 
@@ -71,6 +72,7 @@ export abstract class HandlebarsNodeVisitors extends Parser {
       return;
     }
 
+    // TODO: consider a custom version of BlockStatement for embedded boolean helpers like unless or if so they can function within an element's attribute
     if (
       this.tokenizer.state !== TokenizerState.data &&
       this.tokenizer.state !== TokenizerState.beforeData

@@ -132,7 +132,7 @@ function buildMustacheComment(value: string, loc?: SourceLocation): ASTv1.Mustac
 }
 
 function buildConcat(
-  parts: (ASTv1.TextNode | ASTv1.MustacheStatement)[],
+  parts: (ASTv1.TextNode | ASTv1.MustacheStatement | ASTv1.BlockStatement)[],
   loc?: SourceLocation
 ): ASTv1.ConcatStatement {
   if (!isPresent(parts)) {

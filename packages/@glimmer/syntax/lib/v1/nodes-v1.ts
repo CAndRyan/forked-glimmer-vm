@@ -187,9 +187,10 @@ export interface TextNode extends BaseNode {
   chars: string;
 }
 
+// TODO: consider a custom version of BlockStatement for embedded boolean helpers like unless or if so they can function within an element's attribute & be concatenated
 export interface ConcatStatement extends BaseNode {
   type: 'ConcatStatement';
-  parts: PresentArray<TextNode | DynamicValue>;
+  parts: PresentArray<TextNode | DynamicValue>; // | BlockStatement
 }
 
 export type ExpressionName = 'SubExpression' | 'PathExpression' | LiteralName;

@@ -97,6 +97,29 @@ test('a piece of Handlebars with HTML', function () {
   );
 });
 
+// TODO update parser to accomodate boolean helper functions (i.e. a subset of BlockStatements) within concatenation of an attribute value
+test('Handlebars block statement embedded in an attribute (quoted)', function () {
+  let t = '<div class="{{#if isTrue}}foo{{/if}}">content</div>';
+  astEqual(
+    t,
+    b.program([
+      element(
+        'div',
+        [
+          'attrs',
+          [
+            'class',
+            b.concat([
+              b.block(b.path('if'), [b.path('isTrue')], b.hash(), b.blockItself([b.text('foo')])),
+            ]),
+          ],
+        ],
+        ['body', b.text('content')]
+      ),
+    ])
+  );
+});
+
 test('Handlebars embedded in an attribute (quoted)', function () {
   let t = 'some <div class="{{foo}}">content</div> done';
   astEqual(
@@ -590,14 +613,25 @@ test('allow {{undefined}} to be passed as a param', function () {
 
 // TODO: update all other partial tests...
 test('Handlebars partial should NOT error', function () {
-  let ast = parse('{{> foo}}', { meta: { moduleName: 'test-module' } });
+  let ast = parse('{{> foo}}', { meta: { moduleName: 'test-module-partial' } });
 
   astEqual(ast, b.program([b.partial(b.path('foo'), [])]));
 });
 
-// TODO: update all other partial tests...
 test('Handlebars partial should NOT error, context included', function () {
-  let ast = parse('{{> foo context}}', { meta: { moduleName: 'test-module' } });
+  let ast = parse('{{> foo context}}', { meta: { moduleName: 'test-module-partial' } });
+
+  astEqual(ast, b.program([b.partial(b.path('foo'), [b.path('context')])]));
+});
+
+test('Handlebars partial should NOT error, attribute included', function () {
+  let ast = parse('{{> foo attr=name}}', { meta: { moduleName: 'test-module-partial' } });
+
+  astEqual(ast, b.program([b.partial(b.path('foo'), [b.path('context')])]));
+});
+
+test('Handlebars partial should NOT error, context included, attribute included', function () {
+  let ast = parse('{{> foo context attr=name}}', { meta: { moduleName: 'test-module-partial' } });
 
   astEqual(ast, b.program([b.partial(b.path('foo'), [b.path('context')])]));
 });
