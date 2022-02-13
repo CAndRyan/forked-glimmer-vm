@@ -119,7 +119,7 @@ export class TokenizerEventHandlers extends HandlebarsNodeVisitors {
     let { name, attributes: attrs, modifiers, comments, selfClosing, loc } = this.finish(
       this.currentStartTag
     );
-
+    // I expect to parse the conditional block statement here
     let element = b.element({
       tag: name,
       selfClosing,
